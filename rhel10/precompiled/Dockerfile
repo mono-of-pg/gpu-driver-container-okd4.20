@@ -42,7 +42,7 @@ RUN echo "[almalinux-kitten-appstream]" > /etc/yum.repos.d/almalinux-kitten-apps
     && echo "priority=10" >> /etc/yum.repos.d/almalinux-kitten-appstream.repo
 
 # Add EPEL for DKMS support
-RUN dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.noarch.rpm
+RUN dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.noarch.rpm
 
 # install build-relvant packages
 run echo "Installing kernel-devel-${KERNEL_VERSION} and other stuff..." \
