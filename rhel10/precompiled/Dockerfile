@@ -2,14 +2,10 @@ ARG DRIVER_TOOLKIT_IMAGE='quay.io/okd/scos-content@sha256:12f4acd1165ab385c0303a
 ARG CUDA_VERSION='13.1.0'
 ARG CUDA_DIST='ubi10'
 
-#FROM ${DRIVER_TOOLKIT_IMAGE} as builder
-FROM almalinux:10 as builder
-
 ARG BASE_URL='https://us.download.nvidia.com/tesla'
 
 ARG KERNEL_VERSION='6.12.0-142.el10'
 ARG RHEL_VERSION='10'
-
 
 # no rhel10 branch in https://github.com/NVIDIA/yum-packaging-precompiled-kmod yet
 ARG RHEL_VERSION_MAJOR='9'
@@ -25,6 +21,26 @@ ARG DRIVER_PATH='kernel'
 ARG BUILDER_USER='mono-of-pg'
 ARG BUILDER_EMAIL='mono-of-pg@fake.email'
 ARG DRIVER_STREAM_TYPE=''
+
+FROM almalinux:10 as builder
+
+ARG KERNEL_VERSION
+ARG RHEL_VERSION
+
+ARG RHEL_VERSION_MAJOR
+
+ARG BUILD_ARCH
+ARG TARGET_ARCH
+
+ARG DRIVER_VERSION
+ARG DRIVER_EPOCH
+ARG DRIVER_OPEN
+ARG DRIVER_PATH
+
+ARG BUILDER_USER
+ARG BUILDER_EMAIL
+ARG DRIVER_STREAM_TYPE
+
 
 RUN useradd -u 1001 -m -s /bin/bash builder
 
@@ -99,7 +115,7 @@ FROM nvcr.io/nvidia/cuda:${CUDA_VERSION}-base-${CUDA_DIST}
 ARG BASE_URL='https://us.download.nvidia.com/tesla'
 
 ARG KERNEL_VERSION
-ARG KERNEL_VERSION_NOARCH
+ARG KERNEL_VERSION_NOARCH=${KERNEL_VERSION}
 ARG RHEL_VERSION
 ARG OS_TAG
 
