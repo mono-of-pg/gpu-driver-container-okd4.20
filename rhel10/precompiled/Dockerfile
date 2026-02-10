@@ -69,7 +69,7 @@ run echo "Installing kernel-devel-${KERNEL_VERSION} and other stuff..." \
 
 USER builder
 
-RUN export KVER=$(echo ${KERNEL_VERSION} | cut -d '-' -f 1) \
+RUN set -ex && export KVER=$(echo ${KERNEL_VERSION} | cut -d '-' -f 1) \
 	KREL=$(echo ${KERNEL_VERSION} | cut -d '-' -f 2 | sed 's/\.el[0-9]\+//') \
 	KDIST=$(echo ${KERNEL_VERSION} | sed -n 's/.*\(\.el[0-9]\+\)$/\1/p') \
         DRIVER_STREAM=$(echo ${DRIVER_VERSION} | cut -d '.' -f 1) \
