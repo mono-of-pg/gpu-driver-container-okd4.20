@@ -13,7 +13,7 @@ ARG RHEL_VERSION='10'
 ARG RHEL_VERSION_MAJOR='9'
 
 ARG BUILD_ARCH='x86_64'
-ARG TARGET_ARCH='amd64'
+ARG TARGET_ARCH='x86_64'
 
 ARG DRIVER_VERSION='580.82.07'
 ARG DRIVER_EPOCH='1'
@@ -44,7 +44,7 @@ RUN export KVER=$(echo ${KERNEL_VERSION} | cut -d '-' -f 1) \
     && sh ./NVIDIA-Linux-${TARGET_ARCH}-${DRIVER_VERSION}.run --extract-only --target tmp \
     && if [ "${DRIVER_STREAM_TYPE}" == "development" ] ; then \
         export DRIVER_OPEN='true' ; \
-        git clone --depth 1 --single-branch -b ${DRIVER_VERSION} https://github.com/NVIDIA/open-gpu-kernel-modules ; \
+        git clone --depth 1 --single-branch -b ${DRIVER_STREAM} https://github.com/NVIDIA/open-gpu-kernel-modules ; \
         mv open-gpu-kernel-modules/${DRIVER_PATH} nvidia-kmod-${DRIVER_VERSION}-${BUILD_ARCH}/kernel ; \
     else \
         mv tmp/${DRIVER_PATH} nvidia-kmod-${DRIVER_VERSION}-${BUILD_ARCH}/kernel ; \
