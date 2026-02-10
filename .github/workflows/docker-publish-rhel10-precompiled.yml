@@ -21,6 +21,9 @@ env:
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
 
+defaults:
+  run:
+    working-directory: rhel10/prebuilt
 
 jobs:
   build:
@@ -81,7 +84,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-        working-directory: ./rhel10/precompiled
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
