@@ -41,13 +41,9 @@ RUN echo "[almalinux-kitten-appstream]" > /etc/yum.repos.d/almalinux-kitten-apps
     && echo "priority=10" >> /etc/yum.repos.d/almalinux-kitten-appstream.repo
 
 # install build-relvant packages
-RUN KVER=$(echo ${KERNEL_VERSION} | cut -d '-' -f 1) \
-    && KREL=$(echo ${KERNEL_VERSION} | cut -d '-' -f 2 | sed 's/\.el[0-9]\+//') \
-    && KDIST=$(echo ${KERNEL_VERSION} | sed -n 's/.*\(\.el[0-9]\+\)$/\1/p') \
-    && DRIVER_STREAM=$(echo ${DRIVER_VERSION} | cut -d '.' -f 1) \
-    && echo "Installing kernel-devel-${KVER}${KDIST} from Almalinux Kitten..." \
+run echo "Installing kernel-devel-${KERNEL_VERSION} from Almalinux Kitten..." \
     && dnf clean all \
-    && dnf -y install "kernel-devel-${KVER}${KDIST}" "kernel-headers-${KVER}${KDIST}" --refresh \
+    && dnf -y install "kernel-devel-${KERNEL_VERSION}" "kernel-headers-${KERNEL_VERSION}" --refresh \
     && dnf -y install gcc make dkms binutils
 
 USER builder
