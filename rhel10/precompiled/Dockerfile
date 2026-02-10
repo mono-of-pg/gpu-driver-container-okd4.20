@@ -32,8 +32,8 @@ WORKDIR /home/builder
 COPY --chown=1001:0 x509-configuration.ini private_key.priv* public_key.der* /home/builder/
 
 RUN export KVER=$(echo ${KERNEL_VERSION} | cut -d '-' -f 1) \
-        KREL=$(echo ${KERNEL_VERSION} | cut -d '-' -f 2 | sed 's/\.el._.\..\+$//') \
-        KDIST=$(echo ${KERNEL_VERSION} | cut -d '-' -f 2 | sed 's/^.*\(\.el._.\)\..\+$/\1/') \
+	KREL=$(echo ${KERNEL_VERSION} | cut -d '-' -f 2 | sed 's/\.el[0-9]\+//') \
+	KDIST=$(echo ${KERNEL_VERSION} | sed -n 's/.*\(\.el[0-9]\+\)$/\1/p') \
         DRIVER_STREAM=$(echo ${DRIVER_VERSION} | cut -d '.' -f 1) \
     && if [ "${DRIVER_OPEN}" == "true" ] ; then export DRIVER_PATH="${DRIVER_PATH}-open" ; fi \
     && git clone --depth 1 --single-branch -b rhel${RHEL_VERSION_MAJOR} https://github.com/NVIDIA/yum-packaging-precompiled-kmod \
