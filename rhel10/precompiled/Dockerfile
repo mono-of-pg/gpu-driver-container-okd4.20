@@ -3,7 +3,7 @@ ARG CUDA_VERSION='13.1.0'
 ARG CUDA_DIST='ubi10'
 
 #FROM ${DRIVER_TOOLKIT_IMAGE} as builder
-FROM ubi10 as builder
+FROM nvcr.io/nvidia/cuda:${CUDA_VERSION}-base-${CUDA_DIST} as builder
 
 ARG BASE_URL='https://us.download.nvidia.com/tesla'
 
