@@ -33,7 +33,7 @@ WORKDIR /home/builder
 COPY --chown=1001:0 x509-configuration.ini private_key.priv* public_key.der* /home/builder/
 
 # Add Almalinux Kitten AppStream repo for kernel-devel (RHEL 10 compatible)
-# Alme keeps old Kernel releases for a longer time
+# Alma keeps old Kernel releases for a longer time
 RUN echo "[almalinux-kitten-appstream]" > /etc/yum.repos.d/almalinux-kitten-appstream.repo \
     && echo "name=Almalinux Kitten AppStream" >> /etc/yum.repos.d/almalinux-kitten-appstream.repo \
     && echo "baseurl=https://www.rpmfind.net/linux/almalinux-kitten/10-kitten/AppStream/${BUILD_ARCH}/os/" >> /etc/yum.repos.d/almalinux-kitten-appstream.repo \
@@ -41,8 +41,11 @@ RUN echo "[almalinux-kitten-appstream]" > /etc/yum.repos.d/almalinux-kitten-apps
     && echo "gpgcheck=0" >> /etc/yum.repos.d/almalinux-kitten-appstream.repo \
     && echo "priority=10" >> /etc/yum.repos.d/almalinux-kitten-appstream.repo
 
+# Add EPEL for DKMS support
+RUN dnf config-manager --set-enabled crb && dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.noarch.rpm
+
 # install build-relvant packages
-run echo "Installing kernel-devel-${KERNEL_VERSION} from Almalinux Kitten..." \
+run echo "Installing kernel-devel-${KERNEL_VERSION} and other stuff..." \
     && dnf clean all \
     && dnf -y install "kernel-devel-${KERNEL_VERSION}" "kernel-headers-${KERNEL_VERSION}" --refresh \
     && dnf -y install gcc make dkms binutils
