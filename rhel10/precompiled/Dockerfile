@@ -41,6 +41,7 @@ ARG BUILDER_USER
 ARG BUILDER_EMAIL
 ARG DRIVER_STREAM_TYPE
 
+ARG BASE_URL
 
 RUN useradd -u 1001 -m -s /bin/bash builder
 
