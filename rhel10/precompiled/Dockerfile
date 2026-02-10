@@ -26,7 +26,7 @@ ARG DRIVER_STREAM_TYPE=''
 
 RUN useradd -u 1001 -m -s /bin/bash builder
 
-USER builder
+USER root
 
 WORKDIR /home/builder
 COPY --chown=1001:0 x509-configuration.ini private_key.priv* public_key.der* /home/builder/
@@ -49,6 +49,8 @@ RUN KVER=$(echo ${KERNEL_VERSION} | cut -d '-' -f 1) \
     && dnf clean all \
     && dnf -y install "kernel-devel-${KVER}${KDIST}" "kernel-headers-${KVER}${KDIST}" --refresh \
     && dnf -y install gcc make dkms binutils
+
+USER builder
 
 RUN export KVER=$(echo ${KERNEL_VERSION} | cut -d '-' -f 1) \
 	KREL=$(echo ${KERNEL_VERSION} | cut -d '-' -f 2 | sed 's/\.el[0-9]\+//') \
