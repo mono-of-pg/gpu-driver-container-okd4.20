@@ -3,12 +3,13 @@ ARG CUDA_VERSION='13.1.0'
 ARG CUDA_DIST='ubi10'
 
 #FROM ${DRIVER_TOOLKIT_IMAGE} as builder
-FROM nvcr.io/nvidia/cuda:${CUDA_VERSION}-base-${CUDA_DIST} as builder
 
 ARG BASE_URL='https://us.download.nvidia.com/tesla'
 
 ARG KERNEL_VERSION='6.12.0-142.el10'
 ARG RHEL_VERSION='10'
+
+FROM almalinux:${RHEL_VERSION} as builder
 
 # no rhel10 branch in https://github.com/NVIDIA/yum-packaging-precompiled-kmod yet
 ARG RHEL_VERSION_MAJOR='9'
