@@ -2,7 +2,8 @@ ARG DRIVER_TOOLKIT_IMAGE='quay.io/okd/scos-content@sha256:12f4acd1165ab385c0303a
 ARG CUDA_VERSION='13.1.0'
 ARG CUDA_DIST='ubi10'
 
-FROM ${DRIVER_TOOLKIT_IMAGE} as builder
+#FROM ${DRIVER_TOOLKIT_IMAGE} as builder
+FROM ubi10 as builder
 
 ARG BASE_URL='https://us.download.nvidia.com/tesla'
 
