@@ -31,6 +31,25 @@ USER builder
 WORKDIR /home/builder
 COPY --chown=1001:0 x509-configuration.ini private_key.priv* public_key.der* /home/builder/
 
+# Add Almalinux Kitten AppStream repo for kernel-devel (RHEL 10 compatible)
+# Alme keeps old Kernel releases for a longer time
+RUN echo "[almalinux-kitten-appstream]" > /etc/yum.repos.d/almalinux-kitten-appstream.repo \
+    && echo "name=Almalinux Kitten AppStream" >> /etc/yum.repos.d/almalinux-kitten-appstream.repo \
+    && echo "baseurl=https://www.rpmfind.net/linux/almalinux-kitten/10-kitten/AppStream//${BUILD_ARCH}os/" >> /etc/yum.repos.d/almalinux-kitten-appstream.repo \
+    && echo "enabled=1" >> /etc/yum.repos.d/almalinux-kitten-appstream.repo \
+    && echo "gpgcheck=0" >> /etc/yum.repos.d/almalinux-kitten-appstream.repo \
+    && echo "priority=10" >> /etc/yum.repos.d/almalinux-kitten-appstream.repo
+
+# install build-relvant packages
+RUN KVER=$(echo ${KERNEL_VERSION} | cut -d '-' -f 1) \
+    && KREL=$(echo ${KERNEL_VERSION} | cut -d '-' -f 2 | sed 's/\.el[0-9]\+//') \
+    && KDIST=$(echo ${KERNEL_VERSION} | sed -n 's/.*\(\.el[0-9]\+\)$/\1/p') \
+    && DRIVER_STREAM=$(echo ${DRIVER_VERSION} | cut -d '.' -f 1) \
+    && echo "Installing kernel-devel-${KVER}${KDIST} from Almalinux Kitten..." \
+    && dnf clean all \
+    && dnf -y install "kernel-devel-${KVER}${KDIST}" "kernel-headers-${KVER}${KDIST}" --refresh \
+    && dnf -y install gcc make dkms binutils
+
 RUN export KVER=$(echo ${KERNEL_VERSION} | cut -d '-' -f 1) \
 	KREL=$(echo ${KERNEL_VERSION} | cut -d '-' -f 2 | sed 's/\.el[0-9]\+//') \
 	KDIST=$(echo ${KERNEL_VERSION} | sed -n 's/.*\(\.el[0-9]\+\)$/\1/p') \
