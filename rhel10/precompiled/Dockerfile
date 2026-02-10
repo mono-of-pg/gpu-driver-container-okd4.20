@@ -20,8 +20,8 @@ ARG DRIVER_EPOCH='1'
 ARG DRIVER_OPEN='false'
 ARG DRIVER_PATH='kernel'
 
-ARG BUILDER_USER=''
-ARG BUILDER_EMAIL=''
+ARG BUILDER_USER='mono-of-pg'
+ARG BUILDER_EMAIL='mono-of-pg@fake.email'
 ARG DRIVER_STREAM_TYPE=''
 
 RUN useradd -u 1001 -m -s /bin/bash builder
