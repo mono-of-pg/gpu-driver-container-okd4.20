@@ -49,7 +49,7 @@ RUN dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.
 run echo "Installing kernel-devel-${KERNEL_VERSION} and other stuff..." \
     && dnf clean all \
     && dnf -y install "kernel-devel-${KERNEL_VERSION}" "kernel-headers-${KERNEL_VERSION}" --refresh \
-    && dnf -y --nobest install gcc make dkms binutils
+    && dnf -y --nobest install gcc make dkms binutils git
 
 USER builder
 
