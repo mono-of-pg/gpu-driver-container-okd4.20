@@ -112,7 +112,7 @@ RUN export KVER=$(echo ${KERNEL_VERSION} | cut -d '-' -f 1) \
 
 FROM nvcr.io/nvidia/cuda:${CUDA_VERSION}-base-${CUDA_DIST}
 
-ARG BASE_URL='https://us.download.nvidia.com/tesla'
+ARG BASE_URL
 
 ARG KERNEL_VERSION
 ARG KERNEL_VERSION_NOARCH=${KERNEL_VERSION}
